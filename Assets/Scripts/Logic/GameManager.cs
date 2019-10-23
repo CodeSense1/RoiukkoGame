@@ -23,7 +23,11 @@ public class GameManager : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-        
+        if (goalGo == null)
+        {
+            goalGo = FindObjectOfType<Goal>();
+            return;
+        }
 
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -31,7 +35,7 @@ public class GameManager : MonoBehaviour {
             GetComponentInChildren<GenerateLevel>().restart();
         }
 
-
+        
         // Handle events after winning
         if (goalGo.HasWon)
         {

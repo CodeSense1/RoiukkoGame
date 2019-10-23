@@ -18,7 +18,7 @@ public class Goal : MonoBehaviour {
         if (collision.tag == "pushAndHide")
         {
             HasWon = true;
-            Debug.Log("Win");
+            winParticle.Play();
         }
     }
 }

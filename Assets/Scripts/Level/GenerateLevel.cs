@@ -62,7 +62,7 @@ public class GenerateLevel : MonoBehaviour {
     {
 
         restarting = true;
-
+        FindObjectOfType<Goal>().HasWon = false;
         foreach( Transform child in transform.GetChild(0))
         {
             if (child.tag == "MainCamera")

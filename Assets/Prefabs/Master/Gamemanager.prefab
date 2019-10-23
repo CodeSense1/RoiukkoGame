@@ -170,7 +170,7 @@ MonoBehaviour:
     color: {r: 0, g: 1, b: 1, a: 1}
   - prefab: {fileID: 1531131652620734, guid: 22a5335ab4b05bb47891ecfb455be6f4, type: 2}
     color: {r: 1, g: 0, b: 1, a: 1}
-  map: {fileID: 2800000, guid: ae7d2d4888ee899409115feb297c25cd, type: 3}
+  map: {fileID: 2800000, guid: 1fd29bfa4498929428c7e0249c21522a, type: 3}
   level: {fileID: 4411278751190046}
 --- !u!114 &114650151686780412
 MonoBehaviour:
