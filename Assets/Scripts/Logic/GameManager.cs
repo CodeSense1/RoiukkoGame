@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.R))
         {
             // Restart level
-            GetComponentInChildren<GenerateLevel>().restart();
+            GetComponentInChildren<GenerateLevel>().Generate();
         }
 
         
@@ -40,9 +40,12 @@ public class GameManager : MonoBehaviour {
         if (goalGo.HasWon)
         {
             winText.gameObject.SetActive(true);
-
-            if (Input.GetKeyDown(KeyCode.Space)) {
-                GetComponentInChildren<GenerateLevel>().restart();
+            
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                // Advance to next level
+                GetComponent<GenerateLevel>().map = GetComponentInChildren<SceneController>().GetNextMap();
+                GetComponent<GenerateLevel>().Generate();
             }
         
         // Handle UI event when game is still running

@@ -41,10 +41,10 @@ public class playerMovement : MonoBehaviour {
             // Check if pushable can move
             Transform pushable = hit.collider.transform;
 
-            if ((pushable.position + direction - boss.transform.position).magnitude < 4)
-            {
-                return;
-            }
+            //if ((pushable.position + direction - boss.transform.position).magnitude < 4)
+            //{
+            //    return;
+            //}
 
             RaycastHit2D pushableHit = Physics2D.Raycast(pushable.position + direction*0.55f, direction, 0.5f);
 
@@ -70,6 +70,10 @@ public class playerMovement : MonoBehaviour {
 
     private void Update()
     {
+
+        if (Goal.instance.HasWon)
+            return;
+
         // Direction, where player should move
         Vector3 direction = Vector3.zero;
         
@@ -107,8 +111,10 @@ public class playerMovement : MonoBehaviour {
 
         // Move player
         if (direction.magnitude > 0)
+        {
             move(direction);
 
+        }
 
         // If player is holding key down and facing right direction, move by holding key down
         if (Time.time - timeSinceLastClick > timeAfterFirstMove && Time.time - timeSinceLastMove > timeBetweenMoves)
@@ -129,8 +135,8 @@ public class playerMovement : MonoBehaviour {
             {
                 move(Vector3.right);
             }
-            
-        }
+
+            }
 
 
     }

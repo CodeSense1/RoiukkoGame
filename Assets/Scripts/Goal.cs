@@ -6,10 +6,12 @@ public class Goal : MonoBehaviour {
     
     public ParticleSystem winParticle;
 
-    public bool HasWon;
+    public static Goal instance;
+    public bool HasWon { get; set; }
 
     private void Start()
     {
+        instance = this;
         HasWon = false;
     }
 
@@ -18,7 +20,11 @@ public class Goal : MonoBehaviour {
         if (collision.tag == "pushAndHide")
         {
             HasWon = true;
+
+            Instantiate(winParticle, FindObjectOfType<playerMovement>().transform.position, Quaternion.identity);
             winParticle.Play();
+            
+
         }
     }
 }

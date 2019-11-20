@@ -25,7 +25,8 @@ public class PlayerLogic : MonoBehaviour {
         if (beerPoints == maxBeerPoints && !hasCollectedAllPoints)
         {
             hasCollectedAllPoints = true;
-            collectAllParticles.Play(); // Why this fuc*** doesn't work???
+            Instantiate(collectAllParticles, FindObjectOfType<playerMovement>().transform.position, Quaternion.identity);
+            collectAllParticles.Play(); 
         }
 	}
 

@@ -4,14 +4,23 @@ public class GenerateLevel : MonoBehaviour {
     
 
     public ColorToPrefab[] colormappings;
-    public Texture2D map;
     public Transform level;
 
     bool restarting = false;
-    
+
+    SceneController sc;
+
+    [HideInInspector]
+    public Texture2D map;
     Camera mainCam;
+
+
 	// Use this for initialization
 	void Awake () {
+
+        sc = FindObjectOfType<SceneController>();
+
+        map = sc.GetNextMap();
 
         mainCam = GetComponentInChildren<Camera>();
 
@@ -19,7 +28,7 @@ public class GenerateLevel : MonoBehaviour {
         mainCam.transform.position = new Vector3(map.width / 2, map.height / 2 + 1, -10);
 
         Generate();
-        
+        Debug.Log("Scene created");
 
     }
 
@@ -33,8 +42,18 @@ public class GenerateLevel : MonoBehaviour {
         
     }
 
-    void Generate()
+    public void Generate()
     {
+        restarting = false;
+
+        foreach (Transform child in transform.GetChild(0))
+        {
+            if (child.tag == "MainCamera")
+                continue;
+
+            Destroy(child.gameObject); // this will take effect only after this frame!
+        }
+
         for (int x = 0; x < map.width; x++)
             for (int y = 0; y < map.height; y++)
             {
@@ -56,22 +75,8 @@ public class GenerateLevel : MonoBehaviour {
                     }
                 }
             }
+
+        map = sc.GetNextMap();
     }
-
-    public void restart()
-    {
-
-        restarting = true;
-        FindObjectOfType<Goal>().HasWon = false;
-        foreach( Transform child in transform.GetChild(0))
-        {
-            if (child.tag == "MainCamera")
-                continue;
-
-            Destroy(child.gameObject); // this will take effect only after this frame!
-        }
-        
-
-    }
-
+    
 }

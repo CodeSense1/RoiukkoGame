@@ -90,7 +90,7 @@ public class GenerateFov : MonoBehaviour {
                 // Ray hit item, that should be hidden
                 if (ray.collider.tag == "pushAndHide")
                 {
-                    levelgenerator.restart();
+                    levelgenerator.Generate();
                 }
                 
                 // Ray hit some collider
