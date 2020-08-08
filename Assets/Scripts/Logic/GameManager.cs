@@ -6,6 +6,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
 
     PlayerLogic playerLogic;
+    playerMovement player;
     GenerateFov bossVision;
     Goal goalGo;
     
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour {
         // Assing ogject instances
         playerLogic = FindObjectOfType<PlayerLogic>();
         goalGo = FindObjectOfType<Goal>();
+        player = FindObjectOfType<playerMovement>();
     }
 
     // Update is called once per frame
@@ -33,6 +35,11 @@ public class GameManager : MonoBehaviour {
         {
             // Restart level
             GetComponentInChildren<GenerateLevel>().Generate();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            player.Undo();
         }
 
         
