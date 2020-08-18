@@ -11,7 +11,9 @@ public class GenerateFov : MonoBehaviour {
     GenerateLevel levelgenerator;
     Transform parent;
 
-    public bool isTargetVisible = false;
+    public bool isTargetVisible { get; set; } 
+
+    public bool Visible { get; private set; }
 
     //public MeshFilter meshFilter;
     Mesh viewMesh;
@@ -41,6 +43,7 @@ public class GenerateFov : MonoBehaviour {
         GetComponent<MeshFilter>().mesh = viewMesh;
         levelgenerator = GetComponentInParent<GenerateLevel>();
         parent = GetComponentInParent<Boss>().gameObject.transform;
+        isTargetVisible = false;
 
     }
 
@@ -74,7 +77,7 @@ public class GenerateFov : MonoBehaviour {
 
         // Define startposition
         Vector3 fowStart = rotateVector(lookDirection, -fowAngle/2);
-
+        isTargetVisible = false;
         for (int i = 1; i < density +1; i++)
         {
 
@@ -90,9 +93,8 @@ public class GenerateFov : MonoBehaviour {
                 // Ray hit item, that should be hidden
                 if (ray.collider.tag == "pushAndHide")
                 {
-                    levelgenerator.Generate();
-                }
-                
+                    isTargetVisible = true;
+                }                
                 // Ray hit some collider
                 
                 visibleVertices[i] = (Vector3)ray.point - parent.position;
@@ -148,37 +150,9 @@ public class GenerateFov : MonoBehaviour {
 
     }
 
-    // Update is called once per frame
-
-    void Test()
-    {
-        Vector3[] verts = new Vector3[3]
-        {
-            new Vector3(0,0,0),
-            new Vector3(1,0,0),
-            new Vector3(1,1,0),
-
-        };
-
-        int[] tris = new int[3]
-        {
-            0,1,2
-        };
-
-        viewMesh.Clear();
-
-        viewMesh.vertices = verts;
-        viewMesh.triangles = tris;
-
-    }
 
     void LateUpdate()
     {
-
-        
-        drawFov(fowAngle);
-
-        //Test();
 
         if (isTargetVisible)
         {
@@ -186,5 +160,11 @@ public class GenerateFov : MonoBehaviour {
         }
         else
             indicator.color = Color.green;
+
+
+        drawFov(fowAngle);
+        
+
+        
     }
 }

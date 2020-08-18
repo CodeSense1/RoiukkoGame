@@ -9,6 +9,7 @@ TagManager:
   - wall
   - goal
   - pushAndHide
+  - boss
   layers:
   - Default
   - TransparentFX

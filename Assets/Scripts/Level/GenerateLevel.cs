@@ -20,16 +20,20 @@ public class GenerateLevel : MonoBehaviour {
 
         sc = FindObjectOfType<SceneController>();
 
-        map = sc.GetNextMap();
+        map = sc.GetMap();
 
-        mainCam = GetComponentInChildren<Camera>();
+        
 
-        mainCam.orthographicSize = map.height / 2 + 2;
-        mainCam.transform.position = new Vector3(map.width / 2, map.height / 2 + 1, -10);
-
-        Generate();
+        Generate(map);
         Debug.Log("Scene created");
 
+    }
+
+    private void CenterCamera()
+    {
+        mainCam = GetComponentInChildren<Camera>();
+        mainCam.orthographicSize = map.height / 2 + 2;
+        mainCam.transform.position = new Vector3(map.width / 2, map.height / 2 + 1, -10);
     }
 
     private void Update()
@@ -44,13 +48,13 @@ public class GenerateLevel : MonoBehaviour {
 
     public void Generate(Texture2D newMap)
     {
-        print("Generating new with new map");
         map = newMap;
         Generate();
     }
 
     public void Generate()
     {
+        CenterCamera();
         restarting = false;
 
         foreach (Transform child in transform.GetChild(0))
@@ -82,8 +86,6 @@ public class GenerateLevel : MonoBehaviour {
                     }
                 }
             }
-
-        map = sc.GetNextMap();
     }
     
 }

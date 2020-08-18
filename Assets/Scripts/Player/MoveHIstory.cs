@@ -22,7 +22,13 @@ public class MoveHistory
         history.RemoveAt(history.Count - 1);
     }
 
-
+    public void Reset()
+    {
+        while(history.Count > 0)
+        {
+            UndoMove();
+        }
+    }
 
     public void AddMove(Transform player, Transform pushable, Vector3 direction)
     {

@@ -18,14 +18,34 @@ public class playerMovement : MonoBehaviour {
     public Boss boss;
     private SpriteRenderer SprRenderer;
     private MoveHistory history;
+
+    public bool CanMove { get; set; }
+    
+
+
     // Use this for initialization
     void Start () {
         history = new MoveHistory();
         SprRenderer = GetComponentInChildren<SpriteRenderer>();
         boss = FindObjectOfType<Boss>();
+        CanMove = true;
 
     }
-    
+
+    private bool checkBossDistance(string tag, float radius, Vector3 pushable)
+    {
+        GameObject[] goWithTag = GameObject.FindGameObjectsWithTag(tag);
+
+        foreach (var go in goWithTag)
+        {
+            if (Vector3.Distance(pushable, go.transform.position) < radius)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     private void move(Vector3 direction)
     {
@@ -41,14 +61,14 @@ public class playerMovement : MonoBehaviour {
 
         else if (hit.collider.tag == "pushable" || hit.collider.tag == "pushAndHide")
         {
-
-            // Check if pushable can move
+            
             Transform pushable = hit.collider.transform;
 
-            //if ((pushable.position + direction - boss.transform.position).magnitude < 4)
-            //{
-            //    return;
-            //}
+            // This checks, wehter pushable is too close to the boss
+            if (checkBossDistance("boss", 3, pushable.position + direction) && hit.collider.tag == "pushable")
+            {
+                return;
+            }
 
             RaycastHit2D pushableHit = Physics2D.Raycast(pushable.position + direction*0.55f, direction, 0.5f);
 
@@ -81,8 +101,18 @@ public class playerMovement : MonoBehaviour {
         history.UndoMove();
     }
 
+    public void ResetPlayer()
+    {
+        history.Reset();
+        CanMove = true;
+    }
+
     private void Update()
     {
+        if (!CanMove)
+        {
+            return;
+        }
 
         if (Goal.instance.HasWon)
             return;

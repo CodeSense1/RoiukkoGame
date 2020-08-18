@@ -7,21 +7,30 @@ public class GameManager : MonoBehaviour {
 
     PlayerLogic playerLogic;
     playerMovement player;
-    GenerateFov bossVision;
-    SceneController sceneController; 
+    SceneController sceneController;
+    GenerateFov vision;
     Goal goalGo;
     
     public Text beerPointsText;
     public Text winText;
+    public GameObject loseText;
 
 
     private void Start()
     {
         // Assing ogject instances
+        findComponents();
+        
+    }
+
+
+    public void findComponents()
+    {
         playerLogic = FindObjectOfType<PlayerLogic>();
         goalGo = FindObjectOfType<Goal>();
         player = FindObjectOfType<playerMovement>();
         sceneController = GetComponentInChildren<SceneController>();
+        vision = FindObjectOfType<GenerateFov>();
     }
 
     // Update is called once per frame
@@ -32,18 +41,35 @@ public class GameManager : MonoBehaviour {
             goalGo = FindObjectOfType<Goal>();
             return;
         }
+        if (vision == null)
+        {
+            vision = FindObjectOfType<GenerateFov>();
+        } else
+        {
+            if (vision.isTargetVisible)
+            {
+                loseText.SetActive(true);
+                player.CanMove = false;
+            }
+            else
+            {
+                player.CanMove = true;
+                loseText.SetActive(false);
+            }
+        }
 
         if (Input.GetKeyDown(KeyCode.R))
         {
             // Restart level
-            GetComponent<GenerateLevel>().Generate();
+            loseText.SetActive(false);
+            player.ResetPlayer();
         }
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
+            loseText.SetActive(false);
             player.Undo();
         }
-
         
         // Handle events after winning
         if (goalGo.HasWon)
@@ -52,10 +78,11 @@ public class GameManager : MonoBehaviour {
             
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                print("Next map ahead!");
                 // Advance to next level
+                player.ResetPlayer();
                 Texture2D map = sceneController.GetNextMap();
                 GetComponent<GenerateLevel>().Generate(map);
+                findComponents();
             }
         
         // Handle UI event when game is still running
