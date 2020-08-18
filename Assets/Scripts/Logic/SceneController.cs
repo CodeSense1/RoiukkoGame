@@ -5,31 +5,28 @@ using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour {
 
-    public Texture2D[] maps;
+    public List<Texture2D> maps;
     public int currentMapId = 0;
-    int playSceneID = 1;
+    const int playSceneID = 1;
     
 
     public void GetToWork()
     {
         SceneManager.LoadScene(playSceneID);
-        
     }
 
     public Texture2D GetNextMap()
     {
-        Texture2D map = null;
-        if (currentMapId > maps.Length)
+        print("GetNextMap called");
+        if (currentMapId+1 < maps.Count)
         {
-             map = maps[currentMapId];
             currentMapId++;
+            return maps[currentMapId];
         }
-        
-        if ( map == null ) {
-            map = maps[0];
-        }
-        return map;
-        
+
+        // Return first map by default
+        currentMapId = 0;
+        return maps[currentMapId];
 
     }
 }

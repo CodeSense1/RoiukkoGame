@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour {
     PlayerLogic playerLogic;
     playerMovement player;
     GenerateFov bossVision;
+    SceneController sceneController; 
     Goal goalGo;
     
     public Text beerPointsText;
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour {
         playerLogic = FindObjectOfType<PlayerLogic>();
         goalGo = FindObjectOfType<Goal>();
         player = FindObjectOfType<playerMovement>();
+        sceneController = GetComponentInChildren<SceneController>();
     }
 
     // Update is called once per frame
@@ -34,7 +36,7 @@ public class GameManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.R))
         {
             // Restart level
-            GetComponentInChildren<GenerateLevel>().Generate();
+            GetComponent<GenerateLevel>().Generate();
         }
 
         if (Input.GetKeyDown(KeyCode.Z))
@@ -50,9 +52,10 @@ public class GameManager : MonoBehaviour {
             
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                print("Next map ahead!");
                 // Advance to next level
-                GetComponent<GenerateLevel>().map = GetComponentInChildren<SceneController>().GetNextMap();
-                GetComponent<GenerateLevel>().Generate();
+                Texture2D map = sceneController.GetNextMap();
+                GetComponent<GenerateLevel>().Generate(map);
             }
         
         // Handle UI event when game is still running

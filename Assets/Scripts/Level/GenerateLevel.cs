@@ -42,6 +42,13 @@ public class GenerateLevel : MonoBehaviour {
         
     }
 
+    public void Generate(Texture2D newMap)
+    {
+        print("Generating new with new map");
+        map = newMap;
+        Generate();
+    }
+
     public void Generate()
     {
         restarting = false;

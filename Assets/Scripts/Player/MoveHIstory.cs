@@ -5,21 +5,21 @@ using UnityEngine;
 public class MoveHistory
 {
 
-    private List<GameMove> History;
+    private List<GameMove> history;
     // Start is called before the first frame update
     public MoveHistory()
     {
-        History = new List<GameMove>();
+        history = new List<GameMove>();
     }
 
 
     public void UndoMove()
     {
-        if (History.Count < 1)
+        if (history.Count < 1)
             return;
 
-        History[History.Count - 1].Undo();
-        History.RemoveAt(History.Count - 1);
+        history[history.Count - 1].Undo();
+        history.RemoveAt(history.Count - 1);
     }
 
 
@@ -27,11 +27,11 @@ public class MoveHistory
     public void AddMove(Transform player, Transform pushable, Vector3 direction)
     {
         var move = new GameMove(player, pushable, direction);
-        History.Add(move);
+        history.Add(move);
     }
 
     public void AddMove(Transform player, Vector3 direction)
     {
-        History.Add(new GameMove(player, direction));
+        history.Add(new GameMove(player, direction));
     }
 }

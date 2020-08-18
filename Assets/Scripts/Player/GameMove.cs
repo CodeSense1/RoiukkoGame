@@ -19,9 +19,7 @@ public class GameMove {
         Direction = direction;
         Pushable = pushable;
     }
-
-
-
+    
 
     public void Undo()
     {
